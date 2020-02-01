@@ -2,7 +2,6 @@
     <img width="700px" src="https://github.com/Fairyland0902/Animoe/raw/master/misc/Animoe.png">
 </div>
 
-#### 
 
 ### Notes
 
