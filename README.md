@@ -3,4 +3,7 @@
 </div>
 
 
-<a name="myfootnote1">1</a>: The anime eye icon in the logo is adatped from ![Wikipedia]().
+
+#### Notes
+
+1. The anime eye icon in the logo is adapted from [Wikipedia](https://en.wikipedia.org/wiki/File:Anime_eye.svg).
