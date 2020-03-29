@@ -8,7 +8,7 @@ import torch
 import torchvision.utils as vutils
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--dataroot', required=False, help='path to dataset')
+parser.add_argument('--dataroot', required=True, help='path to dataset')
 parser.add_argument('--nz', type=int, default=100, help='size of the latent z vector')
 parser.add_argument('--ngf', type=int, default=64)
 parser.add_argument('--ngpu', type=int, default=1, help='number of GPUs to use')
@@ -35,12 +35,13 @@ def random_sample(sample_number):
     return samples
 
 
-def draw_original_images(png, w, h, cols, rows, samples):
+def draw_grid_images(png, w, h, cols, rows, samples):
     canvas = PIL.Image.new('RGB', (w * cols, h * rows), 'white')
     for row in range(rows):
         for col in range(cols):
             index = row * cols + col
             image = PIL.Image.open(samples[index])
+            image = image.resize((w, h), PIL.Image.ANTIALIAS)
             canvas.paste(image, (w * col, h * row))
     canvas.save(png)
 
@@ -52,17 +53,24 @@ def draw_generated_images(png, cols, rows):
     netG = dcgan.Generator(opt.ngpu, nz, nc, ngf)
     netG.load_state_dict(torch.load(opt.netG))
     latents = torch.randn(cols * rows, nz, 1, 1)
-    images = netG(latents)
-    vutils.save_image(images.detach(), png, normalize=True, nrow=rows, padding=0)
+    images = netG(latents).detach()
+    path = "./generate"
+    try:
+        os.makedirs(path)
+    except OSError:
+        pass
+    for i, image in enumerate(images):
+        vutils.save_image(image, os.path.join(path, str(i) + ".png"), normalize=True)
+    vutils.save_image(images, png, normalize=True, nrow=rows, padding=0)
 
 
 if __name__ == '__main__':
-    samples = random_sample(2000)
+    # samples = random_sample(2000)
     # sample_dir = "./samples/"
     # if not os.path.exists(sample_dir):
     #     os.mkdir(sample_dir)
     # for path in samples:
     #     filename = os.path.basename(path)
     #     copyfile(path, sample_dir + filename)
-    draw_original_images("./original.png", 128, 128, 10, 10, random_sample(100))
+    draw_grid_images("./original.png", 64, 64, 10, 10, random_sample(100))
     draw_generated_images("./generated.png", 10, 10)

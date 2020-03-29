@@ -11,13 +11,16 @@ import torch.utils.data
 import torchvision.datasets as dset
 import torchvision.transforms as transforms
 import torchvision.utils as vutils
+from torch.utils.tensorboard import SummaryWriter
+from datetime import datetime
 from model import dcgan
 from model.dcgan import weights_init
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataroot', required=False, help='path to dataset')
+    parser.add_argument('--dataroot', required=True, help='path to dataset')
+    parser.add_argument('--log_dir', required=True, help='path to logs')
     parser.add_argument('--workers', type=int, help='number of data loading workers', default=2)
     parser.add_argument('--batchSize', type=int, default=64, help='input batch size')
     parser.add_argument('--imageSize', type=int, default=64, help='the height / width of the input image to network')
@@ -41,6 +44,8 @@ def main():
         os.makedirs(opt.outf)
     except OSError:
         pass
+
+    writer = SummaryWriter(opt.log_dir + datetime.now().strftime("%Y%m%d-%H%M%S"))
 
     if opt.manualSeed is None:
         opt.manualSeed = random.randint(1, 10000)
@@ -87,7 +92,7 @@ def main():
     criterion = nn.BCELoss()
 
     fixed_noise = torch.randn(opt.batchSize, nz, 1, 1, device=device)
-    real_label = 1
+    real_label = 0.9  # label smoothing
     fake_label = 0
 
     # setup optimizer
@@ -104,9 +109,9 @@ def main():
             real_cpu = data[0].to(device)
             batch_size = real_cpu.size(0)
             label = torch.full((batch_size,), real_label, device=device)
+            sample_noise = torch.rand_like(real_cpu, device=device)
 
-            output = netD(real_cpu)
-            print(output.shape)
+            output = netD(real_cpu + 0.01 * sample_noise)
             errD_real = criterion(output, label)
             errD_real.backward()
             D_x = output.mean().item()
@@ -133,20 +138,26 @@ def main():
             D_G_z2 = output.mean().item()
             optimizerG.step()
 
-            print('[%d/%d][%d/%d] Loss_D: %.4f Loss_G: %.4f D(x): %.4f D(G(z)): %.4f / %.4f'
-                  % (epoch, opt.niter, i, len(dataloader),
-                     errD.item(), errG.item(), D_x, D_G_z1, D_G_z2))
-            if i % 100 == 0:
+            # print('[%d/%d][%d/%d] Loss_D: %.4f Loss_G: %.4f D(x): %.4f D(G(z)): %.4f / %.4f'
+            #       % (epoch, opt.niter, i, len(dataloader),
+            #          errD.item(), errG.item(), D_x, D_G_z1, D_G_z2))
+            writer.add_scalar('Loss_D', errD.item(), epoch * len(dataloader) + i)
+            writer.add_scalar('Loss_G', errG.item(), epoch * len(dataloader) + i)
+            # writer.add_scalar('D(x)', D_x, epoch * len(dataloader) + i)
+            # writer.add_scalar('D(G(z))', D_G_z2, epoch * len(dataloader) + i)
+            if i % 100 == 99:
                 # the first 64 samples from the mini-batch are saved
                 # vutils.save_image(real_cpu[0:64, :, :, :],
                 #                   '%s/real_samples.png' % opt.outf,
                 #                   normalize=True, nrow=8)
                 fake = netG(fixed_noise)
-                vutils.save_image(fake.detach(), '%s/fake_samples_epoch_%03d.png' % (opt.outf, epoch), normalize=True, nrow=8, padding=0)
+                vutils.save_image(fake.detach()[0:64, :, :, :], '%s/fake_samples_epoch_%03d.png' % (opt.outf, epoch), normalize=True, nrow=8, padding=0)
 
         # do checkpointing
         torch.save(netG.state_dict(), '%s/netG_epoch_%d.pth' % (opt.outf, epoch))
         torch.save(netD.state_dict(), '%s/netD_epoch_%d.pth' % (opt.outf, epoch))
+
+    writer.close()
 
 
 if __name__ == '__main__':
