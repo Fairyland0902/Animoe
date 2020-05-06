@@ -13,6 +13,9 @@ The original dataset can be downloaded from the [Danbooru 2018 Anime Character R
 
 ### Web Application 
 
+#### Demo
+[LINK](https://drive.google.com/file/d/1NXwHeaoiNIMDaAmbylT8oezc6Px14P1F/view?usp=sharing)
+
 #### Environment
 > Python virtual environment is recommended!
 
@@ -32,4 +35,6 @@ python3 webapp.py output/netG_epoch_200.pth
 ```
 
 #### Web App Preview
+> open http://127.0.0.1:5000/
+
 ![webapp](misc/webapp.png)
