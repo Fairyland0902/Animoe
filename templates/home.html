@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Animoe</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Animoe.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery-3.5.0.min.js') }}"></script>
+<body>
+    <div id=logo>
+        <img src="{{url_for('static', filename='Animoe.png')}}">
+    </div>
+
+    <form action="/" method="post">
+
+        <div id="config"> 
+            <label for="hair-color">Hair Color:</label>
+            <select id="hair-color" name="hairColor">
+            {%for option in ["random"] + hairColors%} 
+                <option value="{{option}}" {% if option==hairDefault%} selected {% endif %}>{{option}}</option>
+            {%endfor%} 
+            </select>
+
+            <label for="eyes-color">Eyes Color:</label>
+            <select id="eyes-color" name="eyesColor">
+            {%for option in ["random"] + eyesColors%} 
+                <option value="{{option}}" {% if option==eyesDefault%} selected {% endif %}>{{option}}</option>
+            {%endfor%} 
+            </select>
+        </div>
+
+        <div id="generate">
+            <button id="generate-btn" name="generateBtn" type="submit" value="generate">Generate</button>
+            <img id="loadinggif" src="{{url_for('static', filename='loading.gif')}}">
+        </div>
+    </form>
+
+    <div id="outview">
+        <img src="{{url_for('static', filename='webout.png')}}?t={{imgt}}">
+    </div>
+
+    <div id="credit">
+        <p>Credit to:</p>
+        <p>Cheng'an He / Bohao Gao</p>
+        <p>Nicholas Georgiou / Jevin Jiang</p>
+    </div>
+    <script type="text/javascript" src="{{ url_for('static', filename='Animoe.js') }}"></script>
+</head>
+</body>
+</html>
