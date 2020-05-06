@@ -59,20 +59,7 @@ def draw_grid_images(png, w, h, cols, rows, samples):
 def draw_generated_images(png, cols, rows):
     # random tag
     noises, tags = utils.fake_generator(cols * rows, opt.nz, device=device)
-    # assigned tag
-    # noises, _ = utils.fake_generator(cols * rows, opt.nz, device=device)
-    # tag = ['pink hair', 'blue eyes']
-    # tag = utils.get_one_hot_tag(tag)
-    # tag = torch.FloatTensor(tag).view(1, -1).to(device)
-    # tags = torch.cat([tag for _ in range(cols * rows)], dim=0)
     images = netG(noises, tags).detach()
-    path = "./generate"
-    try:
-        os.makedirs(path)
-    except OSError:
-        pass
-    for i, image in enumerate(images):
-        vutils.save_image(utils.denorm(image), os.path.join(path, str(i) + ".png"))
     vutils.save_image(utils.denorm(images), png, nrow=cols, padding=0)
 
 
