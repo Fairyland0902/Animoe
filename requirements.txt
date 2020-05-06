@@ -4,3 +4,4 @@ chainer~=5.3.0
 scipy~=1.4.1
 scikit-image~=0.16.2
 pillow~=7.0.0
+flask~=1.1.2

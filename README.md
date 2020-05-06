@@ -4,11 +4,7 @@
 
 ### Dataset
 
-The original dataset can be downloaded from the [Danbooru 2018 Anime Character Recognition Dataset](https://github.com/grapeot/Danbooru2018AnimeCharacterRecognitionDataset). We then remove those black-white or grayscale images with `preprocess.py` since their inclusion increases the instability in GAN's training.
-
-### Notes
-
-1. The anime eye icon in the logo is adapted from [Wikipedia](https://en.wikipedia.org/wiki/File:Anime_eye.svg).
+The original dataset can be downloaded from the [Anime Face Dataset](https://github.com/SteinsFu/Anime_face_dataset/tree/master/data). We then parse the tags using [Illustration2Vec](https://github.com/rezoo/illustration2vec) and delete those failure cases.
 
 
 ### Web Application 
@@ -38,3 +34,7 @@ python3 webapp.py output/netG_epoch_200.pth
 > open http://127.0.0.1:5000/
 
 ![webapp](misc/webapp.png)
+
+#### Notes
+
+1. The anime eye icon in the logo is adapted from [Wikipedia](https://en.wikipedia.org/wiki/File:Anime_eye.svg).
