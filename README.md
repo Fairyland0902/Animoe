@@ -9,3 +9,27 @@ The original dataset can be downloaded from the [Danbooru 2018 Anime Character R
 ### Notes
 
 1. The anime eye icon in the logo is adapted from [Wikipedia](https://en.wikipedia.org/wiki/File:Anime_eye.svg).
+
+
+### Web Application 
+
+#### Environment
+> Python virtual environment is recommended!
+
+```bash
+pip install Flask
+```
+
+#### Run
+
+```bash
+python3 webapp.py {your .pth model file path}
+```
+
+Example:
+```bash
+python3 webapp.py output/netG_epoch_200.pth
+```
+
+#### Web App Preview
+![webapp](misc/webapp.png)

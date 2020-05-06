@@ -132,5 +132,6 @@ dmypy.json
 waifu2x-caffe/
 dataset/2019-07-27-grapeot-danbooru2018-animecharacterrecognition.tar
 dataset/faceimgs/
-./output/
-./samples/
+output/
+samples/
+generate/

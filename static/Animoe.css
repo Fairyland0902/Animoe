@@ -1,0 +1,91 @@
+label, p, button {
+	font-family: serif;
+}
+
+#logo {
+	margin: 0 auto;
+	width: 300px;
+	margin-top: 20px;
+}
+
+#logo img {
+	width: 100%;
+}
+
+#config {
+	width: 400px;
+	margin: 0 auto;
+	margin-bottom: 20px;
+	color: grey;
+}
+
+#config select{
+	width: 100px;
+    height: 20px;
+    background: white;
+}
+
+#hair-color {
+	margin-right: 30px;
+}
+
+
+#generate {
+	width: 160px;
+	height: 35px;
+	margin: 0 auto;
+}
+
+#loadinggif {
+	width: 100%;
+	display: none;
+}
+
+
+#generate-btn {
+    border: 1px solid grey;
+    font-size: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 6px;
+	background: white;
+	width: 100px;
+	margin: 0 30px;
+	color: grey;
+}
+
+#generate-btn:hover {
+	background: grey;
+	color: white;
+	cursor: pointer;
+}
+
+#outview  {
+	width: 600px;
+	height: 600px;
+	margin: 0 auto;
+	margin-top: 25px;
+	margin-bottom: 25px;
+}
+
+#outview img {
+	width: 100%;
+	height: 100%;
+}
+
+#credit {
+	padding: 10px;
+}
+
+#credit p {
+	text-align: center;
+	margin: 5px;
+	color: grey;
+	font-style: italic;
+}
+
+#credit p:first-child {
+	font-weight: bold;
+	font-size: 20px;
+}
+
