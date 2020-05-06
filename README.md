@@ -32,4 +32,6 @@ python3 webapp.py output/netG_epoch_200.pth
 ```
 
 #### Web App Preview
+> open http://127.0.0.1:5000/
+
 ![webapp](misc/webapp.png)

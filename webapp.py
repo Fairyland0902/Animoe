@@ -72,9 +72,9 @@ if __name__ == '__main__':
         NETG = Generator(NZ, len(utils.hair) + len(utils.eyes)).to(device)
         try:
             NETG.load_state_dict(torch.load(netGpath, map_location=lambda storage, loc: storage))
+            app.run(debug=True)
         except:
             print("`{}` not found".format(netGpath))    
-        app.run(debug=True)
     else:
         print("Usage: python3 webapp.py [netG model path]")
 
