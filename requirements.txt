@@ -1,7 +1,7 @@
-numpy~=1.18.1
-torchvision~=0.5.0
-chainer~=5.3.0
-scipy~=1.4.1
-scikit-image~=0.16.2
-pillow~=7.0.0
+numpy~=1.20.2
+torchvision~=0.8.1
+chainer~=6.3.0
+scipy~=1.6.2
+scikit-image~=0.18.1
+pillow~=8.2.0
 flask~=1.1.2
